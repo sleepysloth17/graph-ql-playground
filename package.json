@@ -7,7 +7,8 @@
     "build": "tsc",
     "format": "prettier . --write",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -24,5 +25,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.9.0"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,json}": "prettier --write"
   }
 }
