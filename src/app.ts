@@ -1,8 +1,7 @@
 // import { Pool, QueryResult } from "pg";
 import express, { Express } from "express";
-import { buildSchema, GraphQLSchema } from "graphql";
-import { createHandler } from "graphql-http/lib/use/express";
 import environment from "./environment";
+import helloWorldRouter from "./hello-world/hello-world-router";
 
 // const pool: Pool = new Pool({
 //   user: environment.PGUSER,
@@ -19,37 +18,7 @@ import environment from "./environment";
 const port: number = environment.SERVER_PORT;
 const app: Express = express();
 
-// const schema: GraphQLSchema = new GraphQLSchema({
-//   query: new GraphQLObjectType({
-//     name: "Query",
-//     fields: {
-//       hello: {
-//         type: GraphQLString,
-//         resolve() {
-//           return "Hello world!";
-//         },
-//       },
-//     },
-//   }),
-// });
-const schema: GraphQLSchema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-const root = {
-  hello() {
-    return "Hello world!";
-  },
-};
-
-app.all(
-  "/graphql",
-  createHandler({
-    schema: schema,
-    rootValue: root,
-  }),
-);
+app.use("/hello-world", helloWorldRouter);
 
 app.listen(port, () => {
   console.log(
