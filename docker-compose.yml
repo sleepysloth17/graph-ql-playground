@@ -6,6 +6,6 @@ services:
     ports:
      - 5432:5432
     environment:
-      POSTGRES_DB: books
+      POSTGRES_DB: playground
       POSTGRES_USER: service
       POSTGRES_PASSWORD: secret
