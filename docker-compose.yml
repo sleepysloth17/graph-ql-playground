@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:17
+    ports:
+     - 5432:5432
+    environment:
+      POSTGRES_DB: books
+      POSTGRES_USER: service
+      POSTGRES_PASSWORD: secret

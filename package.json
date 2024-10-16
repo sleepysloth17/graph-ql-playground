@@ -10,6 +10,10 @@
     "lint": "eslint src/**/*.ts",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,json}": "prettier --write"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -25,9 +29,5 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.9.0"
-  },
-  "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.{ts,json}": "prettier --write"
   }
 }
