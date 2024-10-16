@@ -1,5 +1,6 @@
 // import { Pool, QueryResult } from "pg";
 import express, { Express } from "express";
+import basicMutationssRouter from "./basic-mutations/basic-mutations-router";
 import basicTypesRouter from "./basic-types/basic-types-router";
 import environment from "./environment";
 import helloWorldRouter from "./hello-world/hello-world-router";
@@ -25,6 +26,7 @@ app.use("/hello-world", helloWorldRouter);
 app.use("/basic-types", basicTypesRouter);
 app.use("/roll-dice", rollDiceRouter);
 app.use("/roll-dice-object", rollDiceObjectRouter);
+app.use("/basic-mutations", basicMutationssRouter);
 
 app.listen(port, () => {
   console.log(`Running a GraphQL API server at http://localhost:${port}`);

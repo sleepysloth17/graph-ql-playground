@@ -5,10 +5,10 @@ import { createHandler } from "graphql-http/lib/use/express";
 const rollDiceObjectRouter = Router();
 
 class RandomDie {
-  constructor(private _numSides: number) {}
+  constructor(public numSides: number) {}
 
   public rollOnce(): number {
-    return 1 + Math.floor(Math.random() * this._numSides);
+    return 1 + Math.floor(Math.random() * this.numSides);
   }
 
   public roll(args: { numRolls: number }) {
