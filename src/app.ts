@@ -1,1 +1,5 @@
-console.log("Hello world");
+import environment from "./environment";
+
+console.log(
+  `Hello ${environment.dbHost}:${environment.dbPort}/${environment.db}`,
+);
