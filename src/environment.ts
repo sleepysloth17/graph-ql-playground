@@ -1,11 +1,11 @@
 import "dotenv/config";
 
 const environment = {
-  dbHost: process.env.POSTGRES_HOST,
-  dbPort: process.env.POSTGRES_PORT,
-  db: process.env.POSTGRES_DB,
-  dbUser: process.env.POSTGRES_USER,
-  dbPassword: process.env.POSTGRES_PASSWORD,
+  PGUSER: process.env.PGUSER,
+  PGPASSWORD: process.env.PGPASSWORD,
+  PGHOST: process.env.PGHOST,
+  PGPORT: process.env.PGPORT,
+  PGDATABASE: process.env.PGDATABASE,
 };
 
 export default environment;
