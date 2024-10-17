@@ -1,0 +1,8 @@
+-- Up Migration
+
+UPDATE comment SET parent_id = '00000000-0000-0000-0000-000000000000' WHERE parent_id IS NULL;
+
+ALTER TABLE comment ALTER COLUMN parent_id SET NOT NULL;
+ALTER TABLE comment ALTER COLUMN parent_id SET DEFAULT '00000000-0000-0000-0000-000000000000';
+
+-- Down Migration
