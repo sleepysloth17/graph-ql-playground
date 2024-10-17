@@ -4,8 +4,11 @@ import {
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
+  GraphQLScalarType,
   GraphQLSchema,
   GraphQLString,
+  Kind,
+  ValueNode,
 } from "graphql";
 import { createHandler } from "graphql-http/lib/use/express";
 import commentRepository, { Comment } from "./comment-repository";
@@ -21,11 +24,41 @@ const userType: GraphQLObjectType = new GraphQLObjectType({
   },
 });
 
+// because the int doesn't support huge numbers, I've rolled my own to hold that value
+const DateScalar = new GraphQLScalarType({
+  name: "Date",
+  serialize: (value: unknown) => {
+    if (typeof value === "number") {
+      return value;
+    }
+
+    throw Error("Expected a number object");
+  },
+  parseValue: (value: unknown) => {
+    if (typeof value === "number") {
+      return value;
+    }
+
+    throw Error("Expected a number object");
+  },
+
+  parseLiteral: (ast: ValueNode) => {
+    if (ast.kind === Kind.INT) {
+      return +ast.value;
+    }
+
+    return null;
+  },
+});
+
 const commentType = new GraphQLObjectType({
   name: "Comment",
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLID) },
+    authorId: { type: new GraphQLNonNull(GraphQLString) },
+    createdAt: { type: new GraphQLNonNull(DateScalar) },
     content: { type: new GraphQLNonNull(GraphQLString) },
+    parentId: { type: new GraphQLNonNull(GraphQLString) },
     author: {
       type: userType,
       resolve: (parent: Comment) => {
