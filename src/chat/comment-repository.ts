@@ -14,6 +14,9 @@ export class Comment {
 class CommentRepository {
   private static readonly TABLE_NAME: string = "comment";
 
+  private static readonly DEFAULT_PARENT_ID: string =
+    "00000000-0000-0000-0000-000000000000";
+
   constructor(private _pool: Pool) {
     console.log("initialised comment repository");
   }
@@ -42,7 +45,7 @@ class CommentRepository {
       });
   }
 
-  public getChildren(parentId: string): Promise<Comment[]> {
+  public getCommentChildren(parentId: string): Promise<Comment[]> {
     return this._pool
       .query(
         `SELECT * FROM ${CommentRepository.TABLE_NAME} WHERE parent_id = $1 ORDER BY created_at ASC`,
@@ -50,6 +53,42 @@ class CommentRepository {
       )
       .then((res: QueryResult<unknown>) => {
         return res.rows.map((row: unknown) => this._parseComment(row));
+      });
+  }
+
+  public createComment(
+    authorId: string,
+    content: string,
+    parentId: string,
+  ): Promise<Comment> {
+    return this._pool
+      .query(
+        `INSERT INTO ${CommentRepository.TABLE_NAME} (id, parent_id, author_id, content, created_at) 
+      VALUES (uuid_generate_v4(), $1, $2, $3, extract(epoch from now()) * 1000) RETURNING *`,
+        [parentId || CommentRepository.DEFAULT_PARENT_ID, authorId, content],
+      )
+      .then((res: QueryResult<unknown>) => {
+        console.log(res);
+        if (res.rowCount) {
+          return this._parseComment(res.rows[0]);
+        }
+
+        return null;
+      });
+  }
+
+  public deleteComment(id: string): Promise<Comment> {
+    return this._pool
+      .query(
+        `DELETE FROM ${CommentRepository.TABLE_NAME} WHERE id = $1 RETURNING *`,
+        [id],
+      )
+      .then((res: QueryResult<unknown>) => {
+        if (res.rowCount) {
+          return this._parseComment(res.rows[0]);
+        }
+
+        return null;
       });
   }
 
