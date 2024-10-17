@@ -10,6 +10,7 @@ import rollDiceRouter from "./roll-dice/roll-dice-router";
 const port: number = environment.SERVER_PORT;
 const app: Express = express();
 
+// https://graphql.org/learn/best-practices/#http, but here I've done seperate just so it's easier for me to  read each bit
 app.use("/hello-world", helloWorldRouter);
 app.use("/basic-types", basicTypesRouter);
 app.use("/roll-dice", rollDiceRouter);

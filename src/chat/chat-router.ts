@@ -16,6 +16,8 @@ import userRepository from "./user-repository";
 
 const chatRouter = Router();
 
+// Note: I can use the buildschema and classes pattern that was used in teh roll dice object file,
+// but I want to use the objects here so that I could get an idea of the underlying structure
 const userType: GraphQLObjectType = new GraphQLObjectType({
   name: "User",
   fields: {
