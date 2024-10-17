@@ -28,7 +28,7 @@ class UserRepository {
   public createUser(name: string): Promise<User> {
     return this._pool
       .query(
-        `INSERT INTO ${UserRepository.TABLE_NAME} (id, name) VALUES (uuid_generate_v4(), $1) RETURNING *`,
+        `INSERT INTO ${UserRepository.TABLE_NAME} (name) VALUES ($1) RETURNING *`,
         [name],
       )
       .then((res: QueryResult<unknown>) => {

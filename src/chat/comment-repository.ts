@@ -63,8 +63,8 @@ class CommentRepository {
   ): Promise<Comment> {
     return this._pool
       .query(
-        `INSERT INTO ${CommentRepository.TABLE_NAME} (id, parent_id, author_id, content, created_at) 
-      VALUES (uuid_generate_v4(), $1, $2, $3, extract(epoch from now()) * 1000) RETURNING *`,
+        `INSERT INTO ${CommentRepository.TABLE_NAME} (parent_id, author_id, content) 
+      VALUES ($1, $2, $3) RETURNING *`,
         [parentId || CommentRepository.DEFAULT_PARENT_ID, authorId, content],
       )
       .then((res: QueryResult<unknown>) => {
